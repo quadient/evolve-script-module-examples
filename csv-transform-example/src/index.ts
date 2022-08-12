@@ -7,7 +7,7 @@ import {
     E_START_OBJECT,
     E_START_ARRAY,
     E_END_ARRAY,
-    E_END_OBJECT
+    E_END_OBJECT, XmlEvent, XmlEventType
 } from "@quadient/evolve-data-transformations";
 
 export function getDescription(): ScriptDescription {
@@ -81,22 +81,62 @@ class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
         super({
             start: async(controller) => {
                 controller.enqueue(E_START_OBJECT);
-                controller.enqueue({type: JsonEventType.PROPERTY_NAME, data: "customers"});
+                controller.enqueue({type: JsonEventType.PROPERTY_NAME, data: "Clients"});
                 controller.enqueue(E_START_ARRAY);
             },
             
             transform: async (event, controller) => {
                 switch (event.type) {
                     case "values":
+                        const d = event.data;
                         const obj = {
-                            id: event.data[0],
-                            full_name: event.data[1] + " " + event.data[2],
-                            email: event.data[3],
-                            address: [
-                                event.data[5] + " " + event.data[6],
-                                event.data[9] + " " + event.data[7],
-                                event.data[8],
-                            ]
+                            "CustID": d[0],
+                            "CustName": d[1],
+                            "CustMid": d[2],
+                            "CustSur": d[3],
+                            "CustMail":d[4],
+                            "FromMail": d[5],
+                            "CustPhone": d[6],
+                            "FromPhone": d[7],
+                            "Subject": d[8],
+                            "CustGen": d[9],
+                            "CustCompany": d[10],
+                            "CustStreet": d[11],
+                            "CustCity": d[12],
+                            "CustZIP": d[13],
+                            "CustCountry": d[14],
+                            "CustState": d[15],
+                            "CountryLong": d[16],
+                            "Manager": d[17],
+                            "Internet": d[18],
+                            "Phone": d[19],
+                            "Consultant": d[20],
+                            "CustOption": d[21],
+                            "Date": d[22],
+                            "Open": d[23],
+                            "High": d[24],
+                            "Low": d[25],
+                            "Close": d[26],
+                            "Change": d[27],
+                            "LastDate": d[28],
+                            "LastOpen": d[29],
+                            "LastHigh": d[30],
+                            "LastLow": d[31],
+                            "LastClose": d[32],
+                            "LastChange": d[33],
+                            "Initial_Amount": d[34],
+                            "Jan": d[35],
+                            "Feb": d[36],
+                            "Mar": d[37],
+                            "Apr": d[38],
+                            "May": d[39],
+                            "Jun": d[40],
+                            "Jul": d[41],
+                            "Aug": d[42],
+                            "Sep": d[43],
+                            "Oct": d[44],
+                            "Nov": d[45],
+                            "Dec": d[46],
                         }
                         controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
                 }
