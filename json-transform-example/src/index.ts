@@ -9,9 +9,9 @@ import {normalizeIBAN, isValidIBAN} from "./iban";
 
 export function getDescription(): ScriptDescription {
     return {
-        displayName: "JSON Filter",
-        description: "Reads JSON data and filters array fields based on the specified conditions (expression).",
-        category: "Data Transformations",
+        displayName: "Custom JSON Transformation",
+        description: "Reads JSON data and modifies its content",
+        category: "Examples",
         input: [
             {
                 id: "source",

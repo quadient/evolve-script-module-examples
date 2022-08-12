@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "lib": [
+      "es2019"
+    ],
+    "module": "es6",
+    "noEmitHelpers": true,
+    "noImplicitAny": false,
+    "reactNamespace": "b",
+    "removeComments": false,
+    "skipLibCheck": false,
+    "skipDefaultLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2019",
+    "moduleResolution": "node",
+    "outDir": "dist",
+  },
+  "files": [
+    "node_modules/@quadient/evolve-scripting-api/index.d.ts"
+  ],
+  "include": [
+    "**/*"
+  ]
+}
