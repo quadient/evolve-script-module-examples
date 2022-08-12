@@ -93,10 +93,9 @@ class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
                             full_name: event.data[1] + " " + event.data[2],
                             email: event.data[3],
                             address: [
-                                event.data[4] + " " + event.data[5],
-                                event.data[6],
-                                event.data[7],
-                                event.data[8]
+                                event.data[5] + " " + event.data[6],
+                                event.data[9] + " " + event.data[7],
+                                event.data[8],
                             ]
                         }
                         controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
