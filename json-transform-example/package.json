@@ -1,0 +1,18 @@
+{
+  "name": "json-transform-example",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Example of custom json transformation",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "bb b -m 0 -b 0",
+    "gen-tsconfig": "bb gen-tsconfig"
+  },
+  "author": "Quadient",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.32",
+    "@quadient/evolve-data-transformations": "^0.0.7",
+    "@quadient/evolve-scripting-api": "^0.0.10"
+  }
+}
