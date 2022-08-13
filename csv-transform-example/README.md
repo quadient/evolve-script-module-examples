@@ -1,8 +1,14 @@
 # Csv Transformation Example
 
+## Overview
+
+This is an example of the whole scenario. Here you can see how to build a pipeline
+that can be used to process CSV input, transform it to JSON with custom script
+and use a production step to generate PDF from the data input based on the .wfd template.
+
 ## Build the script
 
-As was described in the main README:
+First one needs to build the csv transformation script.
 In commandline switch to the folder `csv-transform-example` and run the
 following command:
 
