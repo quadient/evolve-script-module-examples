@@ -2,7 +2,14 @@
 
 ## Build the script
 
-As was described in the main README.
+As was described in the main README:
+In commandline switch to the folder `csv-transform-example` and run the
+following command:
+
+$ bb b
+
+As a result, there should be a file a.js in folder dist. This is the javascript
+that should be uploaded to Evolve.
 
 ## Create Pipeline
 
