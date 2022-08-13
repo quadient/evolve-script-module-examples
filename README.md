@@ -23,5 +23,8 @@ uploaded to Evolve.
 
 The testing input data file is [example-input.json](json-transform-example/example-input.json), resp. [example-input.csv](csv-transform-example/example-input.csv) 
 
+## CSV Example with Pipeline
+Follow the [detail description](csv-transform-example/README.md).
+
 ## Walk-through the source code
 TODO
