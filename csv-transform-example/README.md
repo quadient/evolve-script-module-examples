@@ -64,6 +64,8 @@ CustID,CustName,CustMid,CustSur,CustMail,FromMail,CustPhone,FromPhone,Subject,Cu
 ## The conversion script description
 In this section we will walk through the source code of the script converting CSV to JSON.
 
+The script is in the [src/index.ts](src/index.ts) file.
+
 The script has two parameters - a resource path of the input and output. We use a resource
 connectors concept to abstract away from the details of accessing data.
 See the documentation for more details.
@@ -139,8 +141,8 @@ provides object with following 3 methods:
   javascript object, so we don't need to produce low-level Json events for all individual
   objects, all their properties, arrays etc. We just construct a javascript object and put it to the
   output, wrapped with JsonEvent of type `ANY_VALUE`. It means object like this:
-  ```
-  let myObject = { /** my object properties etc. */ }
+  ```typescript
+  let myObject = { /** my object properties */ }
   let event = {type: JsonEventType.ANY_VALUE, data: myObject};
   ```
   The event is then sent to output of the transform stream via the `controller` object. This leads to:
