@@ -132,11 +132,21 @@ provides object with following 3 methods:
 
 - **`transform`** - method called for every chunk of data. Because of the previous transformers in the chain,
   it receives `CSVEvent` objects and produces `JSONEvent` objects as a result.
-  We are making use of a special type of event `JsonEventType.ANY_VALUE` - this type
+  The received object is a first parameter of the method. The second parameter is a controller - object
+  which can be used to produce the output data.
+  We are making use of a special type of JSON event - `JsonEventType.ANY_VALUE` - this type
   of `JsonEvent` can be used to output the whole
   javascript object, so we don't need to produce low-level Json events for all individual
-  object, all their properties, arrays etc. We just construct a javascript object and put it to the
-  output, wrapped with JsonEvent of type `ANY_VALUE`.
+  objects, all their properties, arrays etc. We just construct a javascript object and put it to the
+  output, wrapped with JsonEvent of type `ANY_VALUE`. It means object like this:
+  ```
+  let myObject = { /** my object properties etc. */ }
+  let event = {type: JsonEventType.ANY_VALUE, data: myObject};
+  ```
+  The event is then sent to output of the transform stream via the `controller` object. This leads to:
+  ```typescript
+  controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
+  ```
 
 - **`flush`** - Is called when the transformed stream is fully read, wrapping the end of the JSON output.
 
