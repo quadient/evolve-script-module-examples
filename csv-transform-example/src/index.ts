@@ -80,6 +80,7 @@ class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
     constructor() {
         super({
             start: async(controller) => {
+                // Begin the JSON with '{ "Clients": [' sequence.
                 controller.enqueue(E_START_OBJECT);
                 controller.enqueue({type: JsonEventType.PROPERTY_NAME, data: "Clients"});
                 controller.enqueue(E_START_ARRAY);
@@ -89,6 +90,7 @@ class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
                 switch (event.type) {
                     case "values":
                         const d = event.data;
+                        // construct the javascript object from the CSV values array
                         const obj = {
                             "CustID": d[0],
                             "CustName": d[1],
@@ -138,11 +140,13 @@ class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
                             "Nov": d[45],
                             "Dec": d[46],
                         }
+                        // output the JSON event with the constructed object 
                         controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
                 }
             },
             
             flush: async(controller) => {
+                // End the JSON with ']}' sequence.
                 controller.enqueue(E_END_ARRAY);
                 controller.enqueue(E_END_OBJECT);
             }

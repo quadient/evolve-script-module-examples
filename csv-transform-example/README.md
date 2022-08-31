@@ -154,3 +154,43 @@ provides object with following 3 methods:
 
 The rest of the code is there just to take care of the output file if there is some of the same name already,
 covering error states etc.
+
+So the whole source code of the main transformation part is: 
+```typescript
+class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
+    constructor() {
+        super({
+            start: async(controller) => {
+                // Begin the JSON with '{ "Clients": [' sequence.
+                controller.enqueue(E_START_OBJECT);
+                controller.enqueue({type: JsonEventType.PROPERTY_NAME, data: "Clients"});
+                controller.enqueue(E_START_ARRAY);
+            },
+            
+            transform: async (event, controller) => {
+                switch (event.type) {
+                    case "values":
+                        const d = event.data;
+                        // construct js object from the CSV values array
+                        const obj = {
+                            "CustID": d[0],
+                            "CustName": d[1],
+                            "CustMid": d[2],
+                            // etc... - see source code
+                            "Dec": d[46],
+                        }
+                        // output the JSON event with the constructed object 
+                        controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
+                }
+            },
+            
+            flush: async(controller) => {
+                // End the JSON with ']}' sequence.
+                controller.enqueue(E_END_ARRAY);
+                controller.enqueue(E_END_OBJECT);
+            }
+        });
+    }
+}
+
+```
