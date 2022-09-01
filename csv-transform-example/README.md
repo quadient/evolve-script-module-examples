@@ -1,35 +1,44 @@
-# Csv Transformation Example
+# CSV Transformation Example
 
 ## Overview
 
-This is an example of the whole scenario. Here you can see how to build a pipeline
-that can be used to accept CSV data in request. The pipeline then transform the data to JSON with custom script
-and use a production step to generate PDF from the data input based on the .wfd template.
-PDF is returned in response.
+This is an example of the whole CSV transformation scenario. We will show you how to build a processing pipeline
+that can be used to accept CSV data in an API request. The pipeline then transforms the data to JSON using a custom script
+and uses a production step to generate a PDF from the data input based on the WFD template.
+The PDF is returned as a response.
 
-## Pre-requisities
-Following tools are needed to be installed to be able to build the example modules.
+## Prerequisites
+Following tools are needed to be installed in order to be able to build the example modules.
+- Git
 - NodeJS
 - Yarn
 - [Bobril build](https://github.com/bobril/bbcore)
 
 ## Build the script
 
-First one needs to build the csv transformation script.
-In commandline switch to the folder `csv-transform-example` and run the
+First, clone this git repository. Open commandline and type:
+```
+git clone https://github.com/quadient/evolve-script-module-examples.git
+```
+
+Then you need to build the CSV transformation script. In the command line,
+switch to the folder `csv-transform-example` and run the
 following command:
 
 ```
-$ bb b
+cd csv-transform-example
+bb b
 ```
-As a result, there should be a file a.js in folder dist. This is the javascript
-that should be uploaded to Evolve.
+As a result, the `a.js` file should be created in the `dist` folder. This is the JavaScript file
+that you will need to upload to Evolve.
 
-## Create the Pipeline
+![Script upload](doc/script-upload.png)
 
-Following pictures illustrate the pipeline.
+## Create the Processing Pipeline
 
-**Note**: In the "Print" step it is necessary to provide a real path to
+The following pictures show the processing pipeline.
+
+**Note**: In the "Print" step, it is necessary to provide a real path to
 the `LifeInsuranceQuote_jsonInput.wfd` file in the `ICM Sample Solutions` folder.
 
 The `DataInput` must point to the `request.json` file in the `Working Folder`.
@@ -43,10 +52,10 @@ The `DataInput` must point to the `request.json` file in the `Working Folder`.
 ![Pipeline - step 4](doc/pipeline-4.png)
 
 ## The request
-Here you can see how the request should look like.
+Here you can see how the request should look.
 
 You must replace:
-- `YOUR_API_KEY` with the real API key from the Inspire Cloud and
+- `YOUR_API_KEY` with the real API key from the Quadient Cloud and
 - `YOUR_PIPELINE` with the created pipeline ID.
 
 ```
@@ -62,11 +71,11 @@ CustID,CustName,CustMid,CustSur,CustMail,FromMail,CustPhone,FromPhone,Subject,Cu
 ```
 
 ## The conversion script description
-In this section we will walk through the source code of the script converting CSV to JSON.
+In this section, we will walk you through the source code of the script converting CSV to JSON.
 
 The script is in the [src/index.ts](src/index.ts) file.
 
-The script has two parameters - a resource path of the input and output. We use a resource
+The script has two parameters – a resource path of the input and output. We use a resource
 connectors concept to abstract away from the details of accessing data.
 See the documentation for more details.
 
@@ -76,25 +85,25 @@ Every pipeline script must export two methods:
 
 ### getDescription
 
-The `getDescription` provides general information about the script itself - its name, description,
+The `getDescription` provides general information about the script itself – its name, description,
 description of the parameters. It is quiet obvious, so see details. Worth to mention could be
-the two input parameters - `source` and `target`. Please note, that the `source` type is defined as
-`InputResource` - so its value will be defined by editor of the pipeline and it will point to the
-source of the CSV data. In our scenario described above it will point to the request data, so the actual
+the two input parameters – `source` and `target`. Please note, that the `source` type is defined as
+`InputResource` – so its value will be defined by editor of the pipeline and it will point to the
+source of the CSV data. In our scenario described above, it will point to the request data, so the actual
 value will be `request://`.
 
-The parameter `target` if of type `OutputResource` and in our scenario it will point to a file in a
+The parameter `target` is of the `OutputResource` type, and in our scenario, it will point to a file in a
 working folder, where it can be used by the `Print` step as a DataInput file.
 
-But the script is written in generic way and it doesn't care where will be the actual location of the output.
+But the script is written in a generic way and it doesn't care where will be the actual location of the output.
 That is how the concept of resource connectors works.
 
 ### execute
 
-The `execute` method contains the main body of the script. First, it takes parameter `source`. Because it is of type
-`InputResource`, it means that the actual value is a string containing kind of URI of the input data that can be read.
+The `execute` method contains the main body of the script. First, it takes parameter `source`. Because it is the
+`InputResource` type, it means that the actual value is a string containing kind of URI of the input data that can be read.
 So the value is accessed with `context.parameters.source as string` piece of code. The URI can be opened
-for reading as a *readable* stream with `context.openReadText` method, resulting in:
+for reading as a *readable* stream with the `context.openReadText` method, resulting in:
 ```typescript
 const input = await context.openReadText(context.parameters.source as string);
 ```
@@ -104,16 +113,16 @@ We work with the output data URI in the similar way and open a *writable* stream
 const output = await context.openWriteText(context.parameters.target as string);
 ```
 
-Note, that we are using `openReadText` instead of just `openRead`. The `openReadText` method
+Note that we are using `openReadText` instead of just `openRead`. The `openReadText` method
 opens stream for reading the input data decoded as a text in UTF-8, not binary.
 
-We use the [stream API](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API)
-which is part of Evolve scripting engine. Especially in this example we
+We use the [stream API](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API),
+which is a part of Evolve scripting engine. In this example specifically, we
 use [TransformStream](https://developer.mozilla.org/en-US/docs/Web/API/TransformStream).
 
-There are readilly available `StringToCsvTransformStream` and `JsonToStringTransformStream`
+There are readily available `StringToCsvTransformStream` and `JsonToStringTransformStream`
 classes in the [evolve-data-transformations](https://www.npmjs.com/package/@quadient/evolve-data-transformations) library.
-They help to transform the string input into the stream of CSV events. Our custom transformer (yellow in the picture)
+They help to transform the string input into the stream of CSV events. Our custom transformer (highlighted in yellow in the picture below)
 translates the CSV events into the JSON events and then we use the already available class to transform
 the JSON events to string (deserialization).
 
@@ -127,19 +136,19 @@ await input
     .pipeTo(output);
 ```
 
-Now we can look on the `CsvCustomTransformStream` more deeply. It extends `TransformStream` and in constructor it
-provides object with following 3 methods:
+Now we can look at the `CsvCustomTransformStream` more deeply. It extends `TransformStream`, and in constructor, it
+provides an object with the following three methods:
 
-- **`start`** - method called at the beginning of the stream transformation. In our case it produces the beginning of the JSON (in the form of `JSONEvent` objects)
+- **`start`** – method called at the beginning of the stream transformation. In our case, it produces the beginning of the JSON (in the form of `JsonEvent` objects)
 
-- **`transform`** - method called for every chunk of data. Because of the previous transformers in the chain,
-  it receives `CSVEvent` objects and produces `JSONEvent` objects as a result.
-  The received object is a first parameter of the method. The second parameter is a controller - object
+- **`transform`** – method called for every chunk of data. Because of the previous transformers in the chain,
+  it receives `CSVEvent` objects and produces `JsonEvent` objects as a result.
+  The received object is the first parameter of the method. The second parameter is a controller – an object
   which can be used to produce the output data.
-  We are making use of a special type of JSON event - `JsonEventType.ANY_VALUE` - this type
-  of `JsonEvent` can be used to output the whole
-  javascript object, so we don't need to produce low-level Json events for all individual
-  objects, all their properties, arrays etc. We just construct a javascript object and put it to the
+  We are making use of a special type of JSON event – `JsonEventType.ANY_VALUE` – this type
+  of a `JsonEvent` can be used to output the whole
+  JavaScript object, so we don't need to produce low-level JSON events for all individual
+  objects, all their properties, arrays, etc. We just construct a javascript object and put it to the
   output, wrapped with JsonEvent of type `ANY_VALUE`. It means object like this:
   ```typescript
   let myObject = { /** my object properties */ }
@@ -150,47 +159,47 @@ provides object with following 3 methods:
   controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
   ```
 
-- **`flush`** - Is called when the transformed stream is fully read, wrapping the end of the JSON output.
+- **`flush`** – Is called when the transformed stream is fully read, wrapping the end of the JSON output.
 
-The rest of the code is there just to take care of the output file if there is some of the same name already,
-covering error states etc.
+The rest of the code is there just to take care of the output file in case there is some of the same name already,
+covering error states, etc.
 
-So the whole source code of the main transformation part is: 
+So the whole source code of the main transformation part is:
 ```typescript
 class CsvCustomTransformStream extends TransformStream<CsvEvent, JsonEvent> {
-    constructor() {
-        super({
-            start: async(controller) => {
-                // Begin the JSON with '{ "Clients": [' sequence.
-                controller.enqueue(E_START_OBJECT);
-                controller.enqueue({type: JsonEventType.PROPERTY_NAME, data: "Clients"});
-                controller.enqueue(E_START_ARRAY);
-            },
-            
-            transform: async (event, controller) => {
-                switch (event.type) {
-                    case "values":
-                        const d = event.data;
-                        // construct js object from the CSV values array
-                        const obj = {
-                            "CustID": d[0],
-                            "CustName": d[1],
-                            "CustMid": d[2],
-                            // etc... - see source code
-                            "Dec": d[46],
-                        }
-                        // output the JSON event with the constructed object 
-                        controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
-                }
-            },
-            
-            flush: async(controller) => {
-                // End the JSON with ']}' sequence.
-                controller.enqueue(E_END_ARRAY);
-                controller.enqueue(E_END_OBJECT);
+  constructor() {
+    super({
+      start: async(controller) => {
+        // Begin the JSON with '{ "Clients": [' sequence.
+        controller.enqueue(E_START_OBJECT);
+        controller.enqueue({type: JsonEventType.PROPERTY_NAME, data: "Clients"});
+        controller.enqueue(E_START_ARRAY);
+      },
+
+      transform: async (event, controller) => {
+        switch (event.type) {
+          case "values":
+            const d = event.data;
+            // construct js object from the CSV values array
+            const obj = {
+              "CustID": d[0],
+              "CustName": d[1],
+              "CustMid": d[2],
+              // etc... - see source code
+              "Dec": d[46],
             }
-        });
-    }
+            // output the JSON event with the constructed object 
+            controller.enqueue({type: JsonEventType.ANY_VALUE, data: obj});
+        }
+      },
+
+      flush: async(controller) => {
+        // End the JSON with ']}' sequence.
+        controller.enqueue(E_END_ARRAY);
+        controller.enqueue(E_END_OBJECT);
+      }
+    });
+  }
 }
 
 ```
