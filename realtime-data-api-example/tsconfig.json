@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": ["es2021"],
+    "target": "es2019",
+    "moduleResolution": "node",
+  },
+  "files": [
+    "node_modules/@quadient/evolve-scripting-api/index.d.ts"
+  ],
+  "include": [
+    "**/*"
+  ]
+}
