@@ -23,7 +23,7 @@ export function getDescription(): ScriptDescription {
       },
       {
         id: "watermarkPath",
-        displayName: "watermarkPath",
+        displayName: "Watermark path",
         description: "A path to an image to be used as the watermark.",
         type: "InputResource",
         required: true,
