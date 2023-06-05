@@ -6,10 +6,6 @@ import {
   DocumentsPath,
   DocumentsForWatermarkPath,
 } from "../../Utils/pathUtils";
-import type {
-  DocumentsJson,
-  FrontOfficeMetadata,
-} from "../node_modules/@quadient/evolve-front-office-scripting-utils/dist/index";
 
 export function getDescription(): ScriptDescription {
   return {
@@ -58,19 +54,15 @@ export async function execute(context: Context): Promise<Output> {
     DocumentsForWatermarkPath
   );
 
-  let steps: BundledGenerateOutputV2[];
   const documentsJsonFilePath = pathCombine(source, documentsJsonFileName);
   const documentsJsonFile = context.getFile(documentsJsonFilePath);
-  if (await documentsJsonFile.exists()) {
+  let steps: BundledGenerateOutputV2[];
+  if (await isMultiDocument(documentsJsonFile)) {
     console.log(
       Messages.format(Messages.ProcessingMultiDocument, documentsJsonFilePath)
     );
-
-    const documentsJsonFileContent = await documentsJsonFile.read();
-    const documentsJson: DocumentsJson = JSON.parse(documentsJsonFileContent);
-
-    steps = getmultiDocumentBundledGenerateSteps(
-      documentsJson,
+    steps = await getmultiDocumentBundledGenerateSteps(
+      documentsJsonFile,
       outputDirectory,
       outputDirectoryForWatermark
     );
@@ -78,13 +70,10 @@ export async function execute(context: Context): Promise<Output> {
     console.log(
       Messages.format(Messages.ProcessingSingleDocument, documentsJsonFilePath)
     );
-    const metadataFilePath = pathCombine(source, metadataFileName);
-    const metadataFileContent = await context.read(metadataFilePath);
-    const metadata: FrontOfficeMetadata = JSON.parse(metadataFileContent);
-
-    steps = getsingleDocumentBundledGenerateSteps(
-      metadata,
+    steps = await getsingleDocumentBundledGenerateSteps(
+      context,
       source,
+      metadataFileName,
       outputDirectory,
       outputDirectoryForWatermark
     );
@@ -94,4 +83,8 @@ export async function execute(context: Context): Promise<Output> {
   return {
     bundledGenerateSteps: steps,
   };
+}
+
+async function isMultiDocument(file: IFile): Promise<boolean> {
+  return await file.exists();
 }

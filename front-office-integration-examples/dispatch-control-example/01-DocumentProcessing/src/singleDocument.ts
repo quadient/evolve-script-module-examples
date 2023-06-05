@@ -2,12 +2,17 @@ import { Messages } from "../../Utils/messages";
 import { pathCombine } from "../../Utils/pathUtils";
 import type { FrontOfficeMetadata } from "../node_modules/@quadient/evolve-front-office-scripting-utils/dist/index";
 
-export function getBundledGenerateSteps(
-  metadata: FrontOfficeMetadata,
+export async function getBundledGenerateSteps(
+  context: Context,
   inputPath: string,
+  metadataFileName: string,
   outputDirectory: string,
   outputDirectoryForWatermark: string
-): BundledGenerateOutputV2[] {
+): Promise<BundledGenerateOutputV2[]> {
+  const metadataFilePath = pathCombine(inputPath, metadataFileName);
+  const metadataFileContent = await context.read(metadataFilePath);
+  const metadata: FrontOfficeMetadata = JSON.parse(metadataFileContent);
+
   const outputDirectoryPath = metadataIsCopy(metadata)
     ? outputDirectoryForWatermark
     : outputDirectory;

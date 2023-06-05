@@ -5,11 +5,14 @@ import type {
   DocumentsJson,
 } from "../node_modules/@quadient/evolve-front-office-scripting-utils/dist/index";
 
-export function getBundledGenerateSteps(
-  documentsJson: DocumentsJson,
+export async function getBundledGenerateSteps(
+  documentsJsonFile: IFile,
   outputDirectory: string,
   outputDirectoryForWatermark: string
-): BundledGenerateOutputV2[] {
+): Promise<BundledGenerateOutputV2[]> {
+  const documentsJsonFileContent = await documentsJsonFile.read();
+  const documentsJson: DocumentsJson = JSON.parse(documentsJsonFileContent);
+
   return documentsJson.documents.reduce<BundledGenerateOutputV2[]>(
     (acc, document, index) => {
       const outputDirectoryPath = documentJsonIsCopy(document)
