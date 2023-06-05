@@ -16,7 +16,8 @@ export function getDescription(): ScriptDescription {
       {
         id: "workingDirectory",
         displayName: "Working directory",
-        description: "A working folder that stores auxiliary files generated during processing.",
+        description:
+          "A working folder that stores auxiliary files generated during processing.",
         type: "Connector",
         defaultValue: "blob://ProcessingData",
         required: true,

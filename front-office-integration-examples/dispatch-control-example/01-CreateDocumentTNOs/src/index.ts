@@ -24,7 +24,8 @@ export function getDescription(): ScriptDescription {
       {
         id: "workingDirectory",
         displayName: "Working directory",
-        description: "A working folder that stores auxiliary files generated during processing.",
+        description:
+          "A working folder that stores auxiliary files generated during processing.",
         type: "OutputResource",
         defaultValue: "blob://ProcessingData",
         required: true,
@@ -66,7 +67,9 @@ export async function execute(context: Context): Promise<Output> {
       outputDirectoryForWatermark
     );
   } else {
-    console.log(Messages.ProcessingSingleDocument.format(documentsJsonFilePath));
+    console.log(
+      Messages.ProcessingSingleDocument.format(documentsJsonFilePath)
+    );
     steps = await getsingleDocumentBundledGenerateSteps(
       context,
       source,

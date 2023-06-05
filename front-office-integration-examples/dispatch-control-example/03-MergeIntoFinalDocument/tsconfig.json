@@ -5,10 +5,6 @@
     "moduleResolution": "node",
     "typeRoots": ["node_modules/@quadient"]
   },
-  "files": [
-    "node_modules/@quadient/evolve-scripting-api/index.d.ts"
-  ],
-  "include": [
-    "**/*"
-  ]
+  "files": ["node_modules/@quadient/evolve-scripting-api/index.d.ts"],
+  "include": ["**/*"]
 }

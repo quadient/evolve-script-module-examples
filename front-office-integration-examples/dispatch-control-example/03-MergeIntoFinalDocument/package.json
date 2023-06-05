@@ -1,5 +1,5 @@
 {
-  "main": "src/index.ts",  
+  "main": "src/index.ts",
   "type": "module",
   "scripts": {
     "build": "bb b -m 0 -b 0"
