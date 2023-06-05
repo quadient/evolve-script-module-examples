@@ -1,6 +1,6 @@
 ﻿import "../../Utils/stringExtensions";
-import { getBundledGenerateSteps as getsingleDocumentBundledGenerateSteps } from "./singleDocument";
-import { getBundledGenerateSteps as getmultiDocumentBundledGenerateSteps } from "./multiDocument";
+import { SingleDocument } from "./singleDocument";
+import { MultiDocument } from "./multiDocument";
 import { Messages } from "../../Utils/messages";
 import {
   pathCombine,
@@ -61,7 +61,7 @@ export async function execute(context: Context): Promise<Output> {
   let steps: BundledGenerateOutputV2[];
   if (await isMultiDocument(documentsJsonFile)) {
     console.log(Messages.ProcessingMultiDocument.format(documentsJsonFilePath));
-    steps = await getmultiDocumentBundledGenerateSteps(
+    steps = await new MultiDocument().getBundledGenerateSteps(
       documentsJsonFile,
       outputDirectory,
       outputDirectoryForWatermark
@@ -70,7 +70,7 @@ export async function execute(context: Context): Promise<Output> {
     console.log(
       Messages.ProcessingSingleDocument.format(documentsJsonFilePath)
     );
-    steps = await getsingleDocumentBundledGenerateSteps(
+    steps = await new SingleDocument().getBundledGenerateSteps(
       context,
       source,
       metadataFileName,
