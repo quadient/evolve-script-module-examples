@@ -1,0 +1,10 @@
+{
+  "bbVersion": "*",
+  "library": true,
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["es2019"],
+    "noImplicitAny": false
+  },
+  "includeSources": ["node_modules/@quadient/evolve-scripting-api/index.d.ts"]
+}
