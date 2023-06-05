@@ -9,22 +9,22 @@ import {
 
 export function getDescription(): ScriptDescription {
   return {
-    description: "Add watermark to documents.",
+    description: "Adds a watermark to documents.",
     input: [
       {
         id: "workingDirectory",
-        displayName: "WorkingDirectory",
-        description: "WorkingDirectory",
+        displayName: "Working directory",
+        description: "A working folder that stores auxiliary files generated during processing.",
         type: "Connector",
-        defaultValue: "blob://FoIntegration",
+        defaultValue: "blob://ProcessingData",
         required: true,
         readonly: true,
       },
       {
         id: "watermarkPath",
         displayName: "watermarkPath",
-        description: "Path to file with content to add (Blob storage).",
-        type: "Connector",
+        description: "A path to an image to be used as the watermark.",
+        type: "InputResource",
         required: true,
       },
     ],

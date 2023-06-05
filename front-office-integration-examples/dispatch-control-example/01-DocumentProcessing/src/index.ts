@@ -9,12 +9,12 @@ import {
 
 export function getDescription(): ScriptDescription {
   return {
-    description: "Processes documents from front office ticket.",
+    description: "Processes documents from Front Office tickets.",
     input: [
       {
         id: "source",
         displayName: "Source",
-        description: "Data from front office.",
+        description: "Data from Front Office.",
         type: "InputResource",
         defaultValue: "request://",
         required: true,
@@ -22,10 +22,10 @@ export function getDescription(): ScriptDescription {
       },
       {
         id: "workingDirectory",
-        displayName: "WorkingDirectory",
-        description: "WorkingDirectory",
+        displayName: "Working directory",
+        description: "A working folder that stores auxiliary files generated during processing.",
         type: "OutputResource",
-        defaultValue: "blob://FoIntegration",
+        defaultValue: "blob://ProcessingData",
         required: true,
         readonly: true,
       },

@@ -5,7 +5,7 @@ Examples are in the following folders:
 - `json-transform-example` - example of processing JSON data, manipulating some fields in the input 
           and enriching the objects with 
 - `realtime-data-api-example` - example of using Digital Delivery Realtime Data API
-- `front-office-documents-example` - TODO
+- `front-office-integration-examples` - examples of integrating Generate and Front Office
 
 ## Pre-requisities
 Following tools are needed to be installed to be able to build the example modules.

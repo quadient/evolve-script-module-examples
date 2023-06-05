@@ -10,21 +10,21 @@ import {
 
 export function getDescription(): ScriptDescription {
   return {
-    description: "Merge documents.",
+    description: "Merges documents.",
     input: [
       {
         id: "workingDirectory",
-        displayName: "WorkingDirectory",
-        description: "WorkingDirectory",
+        displayName: "Working directory",
+        description: "A working folder that stores auxiliary files generated during processing.",
         type: "Connector",
-        defaultValue: "blob://FoIntegration",
+        defaultValue: "blob://ProcessingData",
         required: true,
         readonly: true,
       },
       {
         id: "outputFilePath",
         displayName: "Output file path",
-        description: "Path where the output will be stored.",
+        description: "A path that will contain the output file.",
         type: "OutputResource",
         required: true,
       },
@@ -97,7 +97,7 @@ async function getTnoFiles(context: Context, path: string): Promise<string[]> {
     const filename = file.getName();
     if (file.getLocationType() === "File" && filename.endsWith(".tno")) {
       const filePath = pathCombine(path, filename);
-      console.debug(Messages.format(Messages.FindTnoFile, filePath));
+      console.debug(Messages.format(Messages.TnoFileFound, filePath));
 
       result.push(filePath);
     }
