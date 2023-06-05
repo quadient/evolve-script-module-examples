@@ -4,6 +4,7 @@ import { getCommandFileName } from "../../Utils/commandUtils";
 import { Messages } from "../../Utils/messages";
 import {
   pathCombine,
+  CommandsFilePath,
   DocumentsForWatermarkPath,
   DocumentsWithWatermarkPath,
 } from "../../Utils/pathUtils";
@@ -66,7 +67,7 @@ export async function execute(context: Context): Promise<Output> {
     const targetFile = pathCombine(outputDirectory, filename);
 
     const commandFilePath = pathCombine(
-      pathCombine(workingDirectory, "commands"),
+      pathCombine(workingDirectory, CommandsFilePath),
       getCommandFileName()
     );
     const commands = await createCommands(context, sourceFile, watermarkPath);

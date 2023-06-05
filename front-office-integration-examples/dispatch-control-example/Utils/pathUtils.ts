@@ -1,3 +1,4 @@
+export const CommandsFilePath = "commands";
 export const DocumentsPath = "documents";
 export const DocumentsForWatermarkPath = "documentsForWatermark";
 export const DocumentsWithWatermarkPath = "documentsWithWatermark";
