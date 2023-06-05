@@ -6,10 +6,4 @@ export class Messages {
 
   static readonly CreatingBundledGenerateSteps = "Creating bundled steps at outputPath '{0}'.";
   static readonly TnoFileFound = "TNO file found at path '{0}'.";
-
-  static format(message: string, ...args: any[]): string {
-    return message.replace(/{(\d+)}/g, function (match, number) {
-      return typeof args[number] != "undefined" ? args[number] : match;
-    });
-  }
 }

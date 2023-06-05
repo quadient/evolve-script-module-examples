@@ -1,3 +1,4 @@
+import "../../Utils/stringExtensions";
 import { Messages } from "../../Utils/messages";
 import { pathCombine } from "../../Utils/pathUtils";
 import type {
@@ -22,10 +23,7 @@ export async function getBundledGenerateSteps(
         outputDirectoryPath,
         `document_${index + 1}.tno`
       );
-      console.debug(
-        Messages.format(Messages.CreatingBundledGenerateSteps, outputPath)
-      );
-
+      console.debug(Messages.CreatingBundledGenerateSteps.format(outputPath));
       acc.push(createPrintBundleFromDocument(document, outputPath));
       return acc;
     },

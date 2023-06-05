@@ -1,3 +1,4 @@
+import "../../Utils/stringExtensions";
 import { Messages } from "../../Utils/messages";
 import { pathCombine } from "../../Utils/pathUtils";
 import type { FrontOfficeMetadata } from "../node_modules/@quadient/evolve-front-office-scripting-utils/dist/index";
@@ -17,9 +18,7 @@ export async function getBundledGenerateSteps(
     ? outputDirectoryForWatermark
     : outputDirectory;
   const outputPath = pathCombine(outputDirectoryPath, "document.tno");
-  console.debug(
-    Messages.format(Messages.CreatingBundledGenerateSteps, outputPath)
-  );
+  console.debug(Messages.CreatingBundledGenerateSteps.format(outputPath));
 
   return [
     {

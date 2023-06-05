@@ -1,3 +1,4 @@
+import "../../Utils/stringExtensions";
 import { createCommands } from "./commandsCreator";
 import { getCommandFileName } from "../../Utils/commandUtils";
 import { Messages } from "../../Utils/messages";
@@ -79,7 +80,7 @@ export async function execute(context: Context): Promise<Output> {
     );
   }
 
-  console.log(Messages.format(Messages.StepsCreated, steps.length));
+  console.log(Messages.StepsCreated.format(steps.length));
   return {
     bundledGenerateSteps: steps,
   };

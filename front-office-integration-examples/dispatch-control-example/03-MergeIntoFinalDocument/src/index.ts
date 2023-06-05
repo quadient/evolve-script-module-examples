@@ -1,3 +1,4 @@
+import "../../Utils/stringExtensions";
 import { createCommands } from "./commandsCreator";
 import { getCommandFileName } from "../../Utils/commandUtils";
 import { Messages } from "../../Utils/messages";
@@ -97,7 +98,7 @@ async function getTnoFiles(context: Context, path: string): Promise<string[]> {
     const filename = file.getName();
     if (file.getLocationType() === "File" && filename.endsWith(".tno")) {
       const filePath = pathCombine(path, filename);
-      console.debug(Messages.format(Messages.TnoFileFound, filePath));
+      console.debug(Messages.TnoFileFound.format(filePath));
 
       result.push(filePath);
     }
