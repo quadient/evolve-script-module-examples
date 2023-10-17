@@ -22,7 +22,7 @@
     "strict": true,
     "target": "es2019",
     "moduleResolution": "node",
-    "outDir": "dist",
+    "outDir": "dist"
   },
   "files": [
     "node_modules/@quadient/evolve-scripting-api/index.d.ts"
