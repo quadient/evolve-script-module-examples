@@ -16,6 +16,7 @@ Following tools are needed to be installed to be able to build the example modul
 
 ## How to build
 The examples are built via the swarm utility. For each example, use swarm to log in to Cloud and upload the script.
+In commandline switch to the folder of the example, e. g. [json-transform-example](json-transform-example) and run the following command:
 
 ```shell
 swarm login
