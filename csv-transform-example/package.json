@@ -11,8 +11,9 @@
   "author": "Quadient",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^17.0.32",
-    "@quadient/evolve-data-transformations": "^0.0.7",
-    "@quadient/evolve-scripting-api": "^0.0.10"
+    "@quadient/evolve-data-transformations": "latest"
+  },
+  "devDependencies": {
+    "@quadient/evolve-scripting-api": "latest"
   }
 }

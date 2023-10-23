@@ -13,6 +13,7 @@ Following tools are needed to be installed in order to be able to build the exam
 - NodeJS
 - Yarn
 - [Bobril build](https://github.com/bobril/bbcore)
+- [swarm](https://www.npmjs.com/package/@quadient/swarm)
 
 ## Build the script
 
@@ -23,16 +24,13 @@ git clone https://github.com/quadient/evolve-script-module-examples.git
 
 Then you need to build the CSV transformation script. In the command line,
 switch to the folder `csv-transform-example` and run the
-following command:
+following commands:
 
 ```
 cd csv-transform-example
-bb b
+swarm login
+swarm script upload
 ```
-As a result, the `a.js` file should be created in the `dist` folder. This is the JavaScript file
-that you will need to upload to Evolve.
-
-![Script upload](doc/script-upload.png)
 
 ## Create the Processing Pipeline
 
