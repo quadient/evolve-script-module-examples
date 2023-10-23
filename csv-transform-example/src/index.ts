@@ -7,14 +7,12 @@ import {
     E_START_OBJECT,
     E_START_ARRAY,
     E_END_ARRAY,
-    E_END_OBJECT, XmlEvent, XmlEventType
+    E_END_OBJECT
 } from "@quadient/evolve-data-transformations";
 
 export function getDescription(): ScriptDescription {
     return {
-        displayName: "Custom CSV to JSON Transformation",
         description: "Reads CSV data and converts them to JSON format.",
-        category: "Examples",
         input: [
             {
                 id: "source",
