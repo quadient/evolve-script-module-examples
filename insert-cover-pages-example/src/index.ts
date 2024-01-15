@@ -14,7 +14,7 @@ import {
 
 export function getDescription(): ScriptDescription {
     return {
-        displayName: 'Cover Page Generator',
+        displayName: 'Insert Cover Pages',
         description:
             'Takes a fixed document and adds it to the beginning or end of each document in a record',
         category: 'Impositioning',
@@ -27,9 +27,21 @@ export function getDescription(): ScriptDescription {
             parametersDescriptions.InputParamOutputType,
             parametersDescriptions.InputParamProductionConfiguration,
             parametersDescriptions.InputParamWorkingDirectory,
-        ],
-        output: [parametersDescriptions.OutputParamInsertCoverPages],
-    } as const satisfies ScriptDescription;
+        ] as (
+            | StringParameterDescription
+            | NumberParameterDescription
+            | SecretParameterDescription
+            | SelectionInputParameterDescription
+            | ConnectorParameterDescription
+            | InputResourceParameterDescription
+            | OutputResourceParameterDescription
+            | InputParameterDescription
+            | ArrayStringInputParameterDescription
+            | ArraySelectionInputParameterDescription
+            | ArrayNumberInputParameterDescription
+        )[],
+        output: [parametersDescriptions.OutputParamInsertCoverPages] as (BasicOutputParameterDescription | SelectionOutputParameterDescription)[],
+    } as const satisfies ScriptDescription;  
 }
 
 export async function execute(context: Context): Promise<Output> {
@@ -61,7 +73,7 @@ export async function execute(context: Context): Promise<Output> {
     );
 
     return {
-        coverPageGenerator: bundledGenerateStep,
+        insertCoverPages: bundledGenerateStep,
     };
 }
 
@@ -83,7 +95,7 @@ function createCommands(
                 newPage.push(createPageSizeCommmand(group.pageSizes[i]));
             }
 
-            if (i === 0 && inputPrefixPage != undefined || inputPrefixPage != null) {
+            if (i === 0 && inputPrefixPage != undefined) {
                 let prefixPage: Command[] = [];
                 prefixPage.push(createGroupBeginCommmand());
                 prefixPage.push(createCopyInputPageCommand(inputPrefixPage, 1));
@@ -100,7 +112,7 @@ function createCommands(
 
             if (
                 i === group.pageSizes.length - 1 &&
-                inputSufixPage != undefined || inputSufixPage != null
+                inputSufixPage != undefined
             ) {
                 let sufixPage: Command[] = [];
                 sufixPage.push(createCopyInputPageCommand(inputSufixPage, 1));
