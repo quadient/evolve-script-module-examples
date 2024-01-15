@@ -27,20 +27,8 @@ export function getDescription(): ScriptDescription {
             parametersDescriptions.InputParamOutputType,
             parametersDescriptions.InputParamProductionConfiguration,
             parametersDescriptions.InputParamWorkingDirectory,
-        ] as (
-            | StringParameterDescription
-            | NumberParameterDescription
-            | SecretParameterDescription
-            | SelectionInputParameterDescription
-            | ConnectorParameterDescription
-            | InputResourceParameterDescription
-            | OutputResourceParameterDescription
-            | InputParameterDescription
-            | ArrayStringInputParameterDescription
-            | ArraySelectionInputParameterDescription
-            | ArrayNumberInputParameterDescription
-        )[],
-        output: [parametersDescriptions.OutputParamInsertCoverPages] as (BasicOutputParameterDescription | SelectionOutputParameterDescription)[],
+        ],
+        output: [parametersDescriptions.OutputParamInsertCoverPages],
     } as const satisfies ScriptDescription;  
 }
 
@@ -90,12 +78,12 @@ function createCommands(
         for (let i = 0; i < group.pageSizes.length; i++) {
             let newPage: Command[] = [];
 
-            if (i === 0 && inputPrefixPage === undefined) {
+            if (i === 0 && inputPrefixPage === undefined || inputPrefixPage === null) {
                 newPage.push(createGroupBeginCommmand());
                 newPage.push(createPageSizeCommmand(group.pageSizes[i]));
             }
 
-            if (i === 0 && inputPrefixPage != undefined) {
+            if (i === 0 && inputPrefixPage != undefined || inputPrefixPage != null) {
                 let prefixPage: Command[] = [];
                 prefixPage.push(createGroupBeginCommmand());
                 prefixPage.push(createCopyInputPageCommand(inputPrefixPage, 1));
@@ -112,7 +100,7 @@ function createCommands(
 
             if (
                 i === group.pageSizes.length - 1 &&
-                inputSufixPage != undefined
+                inputSufixPage != undefined || inputSufixPage != null
             ) {
                 let sufixPage: Command[] = [];
                 sufixPage.push(createCopyInputPageCommand(inputSufixPage, 1));
