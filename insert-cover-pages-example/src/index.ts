@@ -1,5 +1,5 @@
 import { Parameters } from './parameters';
-import { ParametersDescriptions } from './parametersDescriptions';
+import * as parametersDescriptions from './parametersDescriptions';
 import { Validator } from './validator';
 import { MetaContext, createMetaContext } from './Utils/metaContextUtils';
 import { pathCombine } from './Utils/pathUtils';
@@ -14,22 +14,22 @@ import {
 
 export function getDescription(): ScriptDescription {
     return {
-        displayName: 'Insert Cover Pages',
+        displayName: 'Cover Page Generator',
         description:
             'Takes a fixed document and adds it to the beginning or end of each document in a record',
         category: 'Impositioning',
         input: [
-            ParametersDescriptions.InputParamInputFilePath,
-            ParametersDescriptions.InputParamMetadataFilePath,
-            ParametersDescriptions.InputParamPrefixPagePath,
-            ParametersDescriptions.InputParamSufixPagePath,
-            ParametersDescriptions.InputParamOutputFilePath,
-            ParametersDescriptions.InputParamOutputType,
-            ParametersDescriptions.InputParamProductionConfiguration,
-            ParametersDescriptions.InputParamWorkingDirectory,
+            parametersDescriptions.InputParamInputFilePath,
+            parametersDescriptions.InputParamMetadataFilePath,
+            parametersDescriptions.InputParamPrefixPagePath,
+            parametersDescriptions.InputParamSufixPagePath,
+            parametersDescriptions.InputParamOutputFilePath,
+            parametersDescriptions.InputParamOutputType,
+            parametersDescriptions.InputParamProductionConfiguration,
+            parametersDescriptions.InputParamWorkingDirectory,
         ],
-        output: [ParametersDescriptions.OutputParamInsertCoverPages],
-    };
+        output: [parametersDescriptions.OutputParamCoverPageGenerator],
+    } as const satisfies ScriptDescription;
 }
 
 export async function execute(context: Context): Promise<Output> {
@@ -61,7 +61,7 @@ export async function execute(context: Context): Promise<Output> {
     );
 
     return {
-        insertCoverPages: bundledGenerateStep,
+        coverPageGenerator: bundledGenerateStep,
     };
 }
 
@@ -83,7 +83,7 @@ function createCommands(
                 newPage.push(createPageSizeCommmand(group.pageSizes[i]));
             }
 
-            if (i === 0 && inputPrefixPage != undefined) {
+            if (i === 0 && inputPrefixPage != undefined || inputPrefixPage != null) {
                 let prefixPage: Command[] = [];
                 prefixPage.push(createGroupBeginCommmand());
                 prefixPage.push(createCopyInputPageCommand(inputPrefixPage, 1));
@@ -100,7 +100,7 @@ function createCommands(
 
             if (
                 i === group.pageSizes.length - 1 &&
-                inputSufixPage != undefined
+                inputSufixPage != undefined || inputSufixPage != null
             ) {
                 let sufixPage: Command[] = [];
                 sufixPage.push(createCopyInputPageCommand(inputSufixPage, 1));

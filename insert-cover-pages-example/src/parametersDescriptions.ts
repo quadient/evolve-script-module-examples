@@ -1,5 +1,4 @@
-export class ParametersDescriptions {
-    static readonly InputParamInputFilePath: InputResourceParameterDescription =
+    export const InputParamInputFilePath: InputResourceParameterDescription =
         {
             id: 'inputFilePath',
             displayName: 'Input file path',
@@ -8,7 +7,7 @@ export class ParametersDescriptions {
             required: true,
         };
 
-    static readonly InputParamMetadataFilePath: InputResourceParameterDescription =
+    export const InputParamMetadataFilePath: InputResourceParameterDescription =
         {
             id: 'metadataFilePath',
             displayName: 'Metadata file path',
@@ -18,7 +17,7 @@ export class ParametersDescriptions {
             required: true,
         };
 
-    static readonly InputParamPrefixPagePath: InputResourceParameterDescription =
+    export const InputParamPrefixPagePath: InputResourceParameterDescription =
         {
             id: 'prefixPagePath',
             displayName: 'Prefix page path',
@@ -28,7 +27,7 @@ export class ParametersDescriptions {
             required: false,
         };
 
-    static readonly InputParamSufixPagePath: InputResourceParameterDescription =
+    export const InputParamSufixPagePath: InputResourceParameterDescription =
         {
             id: 'sufixPagePath',
             displayName: 'Sufix page path',
@@ -38,7 +37,7 @@ export class ParametersDescriptions {
             required: false,
         };
 
-    static readonly InputParamOutputFilePath: OutputResourceParameterDescription =
+    export const InputParamOutputFilePath: OutputResourceParameterDescription =
         {
             id: 'outputFilePath',
             displayName: 'Output file path',
@@ -48,7 +47,7 @@ export class ParametersDescriptions {
             required: true,
         };
 
-    static readonly InputParamOutputType: SelectionInputParameterDescription = {
+    export const InputParamOutputType: SelectionInputParameterDescription = {
         id: 'outputType',
         displayName: 'Output type',
         description: 'Desired output type.',
@@ -58,7 +57,7 @@ export class ParametersDescriptions {
         defaultValue: 'InspireNative',
     };
 
-    static readonly InputParamProductionConfiguration: InputParameterDescription =
+    export const InputParamProductionConfiguration: InputParameterDescription =
         {
             id: 'productionConfiguration',
             displayName: 'Production configuration',
@@ -68,7 +67,7 @@ export class ParametersDescriptions {
             required: false,
         };
 
-    static readonly InputParamWorkingDirectory: ConnectorParameterDescription =
+    export const InputParamWorkingDirectory: ConnectorParameterDescription =
         {
             id: 'workingDirectory',
             displayName: 'workingDirectory',
@@ -80,11 +79,11 @@ export class ParametersDescriptions {
             defaultValue: 'job://',
         };
 
-    static readonly OutputParamInsertCoverPages: BasicOutputParameterDescription =
+    export const OutputParamCoverPageGenerator: BasicOutputParameterDescription =
         {
-            id: 'insertCoverPages',
-            type: 'BundledGenerate',
+            id: 'coverPageGenerator',
+            type: 'BundledGenerateArray',
             displayName: 'Impositioning Bundle Generate Output',
             description: 'Bundles the generate steps.',
         };
-}
+
