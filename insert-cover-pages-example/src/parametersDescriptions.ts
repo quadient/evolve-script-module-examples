@@ -79,10 +79,10 @@
             defaultValue: 'job://',
         };
 
-    export const OutputParamCoverPageGenerator: BasicOutputParameterDescription =
+    export const OutputParamInsertCoverPages: BasicOutputParameterDescription =
         {
-            id: 'coverPageGenerator',
-            type: 'BundledGenerateArray',
+            id: 'insertCoverPages',
+            type: 'BundledGenerate',
             displayName: 'Impositioning Bundle Generate Output',
             description: 'Bundles the generate steps.',
         };

@@ -28,7 +28,7 @@ export function getDescription(): ScriptDescription {
             parametersDescriptions.InputParamProductionConfiguration,
             parametersDescriptions.InputParamWorkingDirectory,
         ],
-        output: [parametersDescriptions.OutputParamCoverPageGenerator],
+        output: [parametersDescriptions.OutputParamInsertCoverPages],
     } as const satisfies ScriptDescription;
 }
 
