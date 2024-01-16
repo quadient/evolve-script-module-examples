@@ -27,25 +27,13 @@ export function getDescription(): ScriptDescription {
             parametersDescriptions.InputParamOutputType,
             parametersDescriptions.InputParamProductionConfiguration,
             parametersDescriptions.InputParamWorkingDirectory,
-        ] as (
-            | StringParameterDescription
-            | NumberParameterDescription
-            | SecretParameterDescription
-            | SelectionInputParameterDescription
-            | ConnectorParameterDescription
-            | InputResourceParameterDescription
-            | OutputResourceParameterDescription
-            | InputParameterDescription
-            | ArrayStringInputParameterDescription
-            | ArraySelectionInputParameterDescription
-            | ArrayNumberInputParameterDescription
-        )[],
-        output: [parametersDescriptions.OutputParamInsertCoverPages] as (BasicOutputParameterDescription | SelectionOutputParameterDescription)[],
+        ],
+        output: [parametersDescriptions.OutputParamInsertCoverPages],
     } as const satisfies ScriptDescription;  
 }
 
 export async function execute(context: Context): Promise<Output> {
-    var parameters = Parameters.load(context);
+    var parameters = context.parameters as unknown as Parameters;
     Validator.validateParameters(parameters);
 
     const metadataFile = context.getFile(parameters.metadataFilePath);
@@ -85,40 +73,31 @@ function createCommands(
 ): Commands {
     const commandJson = {} as Commands;
     commandJson.pages = [];
-
     metaContext.groups.forEach((group) => {
+        if (inputPrefixPage != undefined) {
+            let prefixPage: Command[] = [];
+            prefixPage.push(createGroupBeginCommmand());
+            prefixPage.push(createCopyInputPageCommand(inputPrefixPage, 1));
+            prefixPage.push(createPageSizeCommmand(group.pageSizes[0]));
+            commandJson.pages.push(prefixPage);
+        }
         for (let i = 0; i < group.pageSizes.length; i++) {
             let newPage: Command[] = [];
 
-            if (i === 0 && inputPrefixPage === undefined || inputPrefixPage === null) {
+            if (i === 0 && inputPrefixPage == undefined) {
                 newPage.push(createGroupBeginCommmand());
-                newPage.push(createPageSizeCommmand(group.pageSizes[i]));
-            }
-
-            if (i === 0 && inputPrefixPage != undefined || inputPrefixPage != null) {
-                let prefixPage: Command[] = [];
-                prefixPage.push(createGroupBeginCommmand());
-                prefixPage.push(createCopyInputPageCommand(inputPrefixPage, 1));
-                prefixPage.push(createPageSizeCommmand(group.pageSizes[i]));
-
-                commandJson.pages.push(prefixPage);
             }
             newPage.push(
                 createCopyInputPageCommand(inputFileName, group.pageNumbers[i])
             );
             newPage.push(createPageSizeCommmand(group.pageSizes[i]));
-
             commandJson.pages.push(newPage);
-
-            if (
-                i === group.pageSizes.length - 1 &&
-                inputSufixPage != undefined || inputSufixPage != null
-            ) {
-                let sufixPage: Command[] = [];
-                sufixPage.push(createCopyInputPageCommand(inputSufixPage, 1));
-                sufixPage.push(createPageSizeCommmand(group.pageSizes[i]));
-                commandJson.pages.push(sufixPage);
-            }
+        }
+        if (inputSufixPage != undefined) {
+            let sufixPage: Command[] = [];
+            sufixPage.push(createCopyInputPageCommand(inputSufixPage, 1));
+            sufixPage.push(createPageSizeCommmand(group.pageSizes[0]));
+            commandJson.pages.push(sufixPage);
         }
     });
     return commandJson;
