@@ -1,4 +1,4 @@
-# Cover Page Generator
+# Insert Cover Pages
 
 ## Overview
 
@@ -18,9 +18,9 @@ First, clone this git repository. Open the command line and type:
 git clone https://github.com/your-repository.git
 
 
-Next, you need to build the cover page generator script. In the command line, switch to the folder called cover-page-generator and run the following commands:
+Next, you need to build the insert cover pages script. In the command line, switch to the folder called insert-cover-pages and run the following commands:
 
-cd cover-page-generator yarn install
+cd insert-cover-pages yarn install
 
 
 ## Usage
